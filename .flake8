@@ -1,0 +1,4 @@
+[flake8]
+exclude=env, migrations
+max-line-length=140
+ignore=F401
