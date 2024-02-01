@@ -1,0 +1,24 @@
+<div class="pagination" style="padding: 2rem 0">
+    <span class="step-links">
+
+        {% if page_obj.paginator.num_pages > 1 %}
+
+            {% if page_obj.has_previous %}
+                <a href="?page=1&{{request.query_params}}" class="page-link" style="display: inline-block">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}&{{request.query_params}}" class="page-link" style="display: inline-block">previous</a>
+            {% endif %}
+
+            {% for number_page in page_obj.paginator.page_range %}
+                {% if number_page >= page_obj.number|add:-8 and number_page < page_obj.number|add:8 %}
+                    <a href="?page={{ number_page }}&{{request.query_params}}" class="page-link" style="display: inline-block">{{ number_page }} </a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&{{request.query_params}}" class="page-link" style="display: inline-block">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}&{{request.query_params}}" class="page-link" style="display: inline-block">last &raquo;</a>
+            {% endif %}
+        {% endif %}
+
+    </span>
+</div>

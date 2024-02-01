@@ -1,0 +1,102 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>{{title}}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous">
+<!--    <link rel="stylesheet" type="text/css" href="{% static 'user_account/css/base_1.css' %}">-->
+<!--    <link rel="stylesheet" type="text/css" href="{% static 'user_account/css/base.css' %}">-->
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/base_1.css' %}">
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+
+        <a class="navbar-brand" href="{% url 'index' %}">TESTS <span class="sr-only">(current)</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'testsuite:list' %}"><b>Test Suites</b></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'testsuite:leader_board' %}"><b>Leader Board</b></a>
+                </li>
+
+            </ul>
+
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+
+                    <li class="nav-item {% if request.path == profile_url %} active {%endif%}">
+                            <a class="nav-link" href="{% url 'account:contact_us' %}">Contact us</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <img class="rounded-circle p-1 m-1" width="45" height="45"  src="{{ user.image.url }}">
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'account:profile' %}">Profile ({{user.username}})</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'account:logout' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'account:registration' %}">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'account:login' %}">Login</a>
+                    </li>
+                {% endif %}
+            </ul>
+<!--            <form class="form-inline my-2 my-lg-0">-->
+<!--                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
+<!--                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+<!--            </form>-->
+        </div>
+    </nav>
+
+
+    <div class="container">
+
+
+        <div class="p-1 m-1">
+            {% include 'includes/messages.html' %}
+        </div>
+
+        <div class="border rounded text-center p-3 m-3 bg-light text-dark" >
+            <h1>{% block title %}{{ title }}{% endblock %}</h1>
+        </div>
+
+        <div class="border border-dark rounded p-3 m-3">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

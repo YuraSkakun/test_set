@@ -1,0 +1,30 @@
+{% if user_list %}
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+              <th>№</th>
+              <th></th>
+              <th>Username</th>
+              <th>Total score</th>
+              <th>Passed tests</th>
+              <th>Percent success</th>
+              <th>Last run</th>
+            </tr>
+        </thead>
+
+        {% for user in user_list %}
+            <tr>
+              <td> {{ forloop.counter }} </td>
+              <td> <img class="rounded-circle p-1 m-1" width="180" height="180"  src="{{ user.image.url }}"></td>
+              <td> {{ user.username }}</td>
+              <td> {{ user.total_score }}</td>
+              <td> {{ user.count_passed_tests }}</td>
+              <td> {{ user.percent_success_passed }}</td>
+              <td> {{ user.test_last_run }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>Sorry, list is empty</p>
+{% endif %}
+{% include 'includes/pagination.html' %}

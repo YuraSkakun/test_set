@@ -1,0 +1,35 @@
+{% if page_obj.paginator.num_pages > 1 %}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1&{{ query_params }}">First</a></li>
+    {#            <a class="page-link" href="?page={{ page_obj.previous_page_number }}&{{ query_params }}" tabindex="-1"> << </a>#}
+            {% endif %}
+
+            {% for number_page in page_obj.paginator.page_range %}
+
+                {% if number_page == page_obj.number %}
+                    <li class="page-item active">
+                        <a class="page-link" href="#">{{ page_obj.number }} <span class="sr-only">(current)</span></a>
+                    </li>
+    {#                {% elif number_page > page_obj.number|add:-offset and number_page < page_obj.number|add:offset  %}#}
+                {% elif number_page > page_obj.number|add:-3 and number_page < page_obj.number|add:3  %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{ number_page }}&{{ query_params }}">{{ number_page }} </a>
+                    </li>
+                {% endif %}
+
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+    {#            <li class="page-item">#}
+    {#                <a class="page-link" href="?page={{ page_obj.next_page_number }}&{{ query_params }}"> >> </a>#}
+    {#            </li>#}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&{{ query_params }}">Last</a></li>
+            {% endif %}
+
+
+        </ul>
+    </nav>
+{% endif %}
