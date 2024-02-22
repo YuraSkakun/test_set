@@ -8,6 +8,12 @@ import os
 
 SECRET_KEY = os.environ['SECRET_KEY']
 
+# CSRF_TRUSTED_ORIGINS=['http://ec2-3-70-177-79.eu-central-1.compute.amazonaws.com',
+#                       'http://3.70.177.79',
+#                       'http://127.0.0.1',
+# ]
+
+
 ALLOWED_HOSTS = ['*', '127.0.0.1', 'localhost']
 # ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 # ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(':')
@@ -20,7 +26,7 @@ STATIC_ROOT = '/var/www/tmb/static'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_ROOT = '/var/www/tmb/media'
 
-CELERY_BROKER_URL = 'amqp://rabbitmq'
+# CELERY_BROKER_URL = 'amqp://rabbitmq'
 
 print('')
 
