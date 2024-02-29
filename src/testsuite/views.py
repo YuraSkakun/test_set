@@ -357,7 +357,7 @@ class TestRunView(LoginRequiredMixin, View):
 #     return HttpResponse('DONE!')
 
 
-# def slow_func(request):
-#     # run_slow()
-#     run_slow.delay(10)
-#     return HttpResponse('DONE!')
+def slow_func(request):
+    # run_slow()
+    run_slow.delay(10)
+    return HttpResponse('DONE!')
