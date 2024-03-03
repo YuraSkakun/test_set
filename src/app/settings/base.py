@@ -12,13 +12,18 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 
+from dotenv import load_dotenv
+
 from django.contrib.messages import constants as messages
 
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
+# load_dotenv(os.path.join(BASE_DIR, 'app/settings/environment/dev.env'))
+load_dotenv(os.environ.get('ENV_CONFIG', ''))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -27,7 +32,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -42,8 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'django_extensions',
-    'debug_toolbar',
+    # 'django_extensions',
+    # 'debug_toolbar',
     'crispy_forms',
 
     'user_account',
@@ -60,9 +65,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
     'core.middlewares.QueryParamsInjectorMiddleware',
-    'core.middlewares.TimeLog'
+    # 'core.middlewares.TimeLog',
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -145,33 +150,33 @@ STATICFILES_DIRS = [
 AUTH_USER_MODEL = 'user_account.User'
 
 
-LOGGING = {
-    'version': 1,
-    'filters': {
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
-        }
-    },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'filters': ['require_debug_true'],
-            'class': 'logging.StreamHandler',
-        }
-    },
-    'loggers': {
-        'django.db.backends': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-        }
-    }
-}
-
-INTERNAL_IPS = [
-    # ...
-    '127.0.0.1',
-    # ...
-]
+# LOGGING = {
+#     'version': 1,
+#     'filters': {
+#         'require_debug_true': {
+#             '()': 'django.utils.log.RequireDebugTrue',
+#         }
+#     },
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'filters': ['require_debug_true'],
+#             'class': 'logging.StreamHandler',
+#         }
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'level': 'DEBUG',
+#             'handlers': ['console'],
+#         }
+#     }
+# }
+#
+# INTERNAL_IPS = [
+#     # ...
+#     '127.0.0.1',
+#     # ...
+# ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = '/'
@@ -194,8 +199,8 @@ SESSION_COOKIE_AGE = 2 * 3600
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-try:
-    from app.settings_local import *
-    # from app.settings.old.settings_local import * # noqa
-except ImportError:
-    pass
+# try:
+#     from app.settings_local import *
+#     # from app.settings.old.settings_local import * # noqa
+# except ImportError:
+#     pass

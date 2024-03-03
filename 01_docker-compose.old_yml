@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+
+  backend:
+    build: ./
+    container_name: backend
+    restart: always
+    command: python manage.py runserver 0:8005
+#    command: ${RUN_COMMAND}
+#    command: gunicorn -w 4 app.wsgi:application -b 0:8005
+#    command: ./commands/${RUN_MODE}.sh
+    ports:
+      - 8005:8005
+#      - ${WSGI_PORT}:${WSGI_PORT}
+    volumes:
+      - ./src:/opt/project
+#      - ./commands:/opt/project/commands
+#      - static_content:/var/www/tmb
+    env_file:
+      - ./src/app/settings/.env
+#      - .env

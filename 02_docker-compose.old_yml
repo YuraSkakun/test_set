@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+
+  backend:
+    build: ./
+    container_name: backend
+    restart: always
+    command: python manage.py runserver 0:8005
+#    command: ${RUN_COMMAND}
+#    command: gunicorn -w 4 app.wsgi:application -b 0:8005
+#    command: ./commands/${RUN_MODE}.sh
+    ports:
+      - 8005:8005
+#      - ${WSGI_PORT}:${WSGI_PORT}
+    volumes:
+      - ./src:/opt/project
+#      - ./commands:/opt/project/commands
+#      - static_content:/var/www/tmb
+    env_file:
+      - ./src/app/settings/.env
+#      - .env
+    depends_on:
+      - postgresql
+
+  postgresql:
+    image: "postgres:12"
+    container_name: postgresql
+    restart: always
+    env_file:
+      - ./src/app/settings/.env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+
+  nginx:
+    image: nginx:1.18-alpine
+    container_name: nginx
+    volumes:
+#      - ./nginx:/etc/nginx/sites-available
+      - ./nginx:/etc/nginx/conf.d
+      - static_content:/var/www/tmb
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata: {}
+  static_content: {}
+  media_content: {}

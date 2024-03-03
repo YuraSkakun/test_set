@@ -1,0 +1,88 @@
+version: '3'
+
+services:
+
+  backend:
+    build: ./
+    container_name: backend
+    restart: always
+    command: ./commands/${RUN_MODE}.sh
+    ports:
+      - ${WSGI_PORT}:${WSGI_PORT}
+    environment:
+      - DJANGO_SETTINGS_MODULE=app.settings.${RUN_MODE}
+    volumes:
+      - ./src:/opt/project
+      - ./commands:/opt/project/commands
+      - static_content:/var/www/tmb
+#    env_file:
+#      - ./src/app/settings/.env
+    env_file:
+      - .env
+    depends_on:
+      - postgresql
+      - celery
+#      - rabbitmq
+
+  postgresql:
+    image: "postgres:12"
+    container_name: postgresql
+    restart: always
+    env_file:
+#      - ./src/app/settings/.env
+      - .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  nginx:
+    env_file:
+      - .env
+    image: nginx:1.18-alpine
+    container_name: nginx
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - static_content:/var/www/tmb
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+#    hostname: ${RABBITMQ_HOST}
+    env_file: .env
+    container_name: rabbitmq
+    restart: always
+
+  celery:
+    env_file: .env
+    build: ./
+    container_name: celery
+#    hostname: ${CELERY_HOST}
+    command: ./commands/start_celery.sh
+    restart: always
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ./src:/opt/project
+      - ./commands:/opt/project/commands
+
+#  celerybeat:
+#    env_file: .env
+#    build: .
+#    container_name: celerybeat
+##    hostname: ${CELERY_HOST}
+#    command: ./commands/start_celerybeat.sh
+#    restart: always
+#    depends_on:
+#      - rabbitmq
+#      - celery
+#    volumes:
+#      - ./src:/opt/project
+#      - ./commands:/opt/project/commands
+
+volumes:
+  pgdata: {}
+  static_content: {}
+  media_content: {}
