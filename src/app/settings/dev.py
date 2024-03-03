@@ -11,8 +11,10 @@ ALLOWED_HOSTS = ['*', '127.0.0.1', 'localhost']
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'cdn/static')
 
-CELERY_BROKER_URL = 'amqp://localhost'
-# CELERY_BROKER_URL = 'amqp://rabbitmq'
+# CELERY_BROKER_URL = 'redis://localhost:6379'
+
+# CELERY_BROKER_URL = 'amqp://localhost'
+CELERY_BROKER_URL = 'amqp://rabbitmq'  # docker-compose
 
 # from celery.schedules import crontab
 

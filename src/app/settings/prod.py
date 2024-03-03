@@ -26,7 +26,8 @@ STATIC_ROOT = '/var/www/tmb/static'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_ROOT = '/var/www/tmb/media'
 
-# CELERY_BROKER_URL = 'amqp://rabbitmq'
+# CELERY_BROKER_URL = 'amqp://localhost'
+CELERY_BROKER_URL = 'amqp://rabbitmq'
 
 print('')
 

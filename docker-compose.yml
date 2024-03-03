@@ -21,7 +21,7 @@ services:
       - .env
     depends_on:
       - postgresql
-#      - celery
+      - celery
 #      - rabbitmq
 
   postgresql:
@@ -48,31 +48,31 @@ services:
     depends_on:
       - backend
 
-#  rabbitmq:
-#    image: rabbitmq:3.8-management-alpine
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
 #    hostname: ${RABBITMQ_HOST}
-#    env_file: .env
-#    container_name: rabbitmq
-#    restart: always
-#
-#  celery:
-#    env_file: .env
-#    build: ./
-#    container_name: celery
+    env_file: .env
+    container_name: rabbitmq
+    restart: always
+
+  celery:
+    env_file: .env
+    build: ./
+    container_name: celery
 #    hostname: ${CELERY_HOST}
-#    command: ./commands/start_celery.sh
-#    restart: always
-#    depends_on:
-#      - rabbitmq
-#    volumes:
-#      - ./src:/opt/project
-#      - ./commands:/opt/project/commands
+    command: ./commands/start_celery.sh
+    restart: always
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ./src:/opt/project
+      - ./commands:/opt/project/commands
 
 #  celerybeat:
 #    env_file: .env
 #    build: .
 #    container_name: celerybeat
-#    hostname: ${CELERY_HOST}
+##    hostname: ${CELERY_HOST}
 #    command: ./commands/start_celerybeat.sh
 #    restart: always
 #    depends_on:
